@@ -7,9 +7,12 @@ var lodash = require('lodash')
 var Auth = require(config.root + '/app/helper/authorization');
 var fs = require('fs');
 
+var Users = require(config.root + '/app/controllers/users');
+
 Route
-  .all('*', Auth.requiresAccessToken)
-  .get('/', function(req, res) {
+  // .all('/v1/*', Auth.requiresAccessToken)
+  .get('/v1/users/show', Users.get_profile)
+  .get('/v1/users', function(req, res) {
     res.json({'message': 'Welcome to API'});
   })
 

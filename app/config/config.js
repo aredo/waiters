@@ -13,6 +13,10 @@ var config = {
       port: 9696,
       hostname: 'localhost',
     },
+    clientServer: [
+      'http://buzzer.findbuzzer.local:9898',
+      'http://advertiser.findbuzzer.local:9898'
+    ],
     database: {
       url: 'mongodb://localhost/findbuzzer_dev'
     },
@@ -49,6 +53,10 @@ var config = {
       port: 3001,
       hostname: process.env.HOSTNAME || '127.0.0.1',
     },
+    clientServer: [
+      'http://buzzer.findbuzzer.com',
+      'http://advertiser.findbuzzer.local'
+    ],
     database: {
       url: 'mongodb://localhost/findbuzzer'
     },

@@ -25,6 +25,7 @@ var session          = require('express-session')
 var MongoStore       = require('connect-mongo')({ session: session })
 var errorHandler     = require('errorhandler')
 var expressValidator = require('express-validator')
+var cors             = require('cors')
 
 
 var pkg = require(__dirname + '/package.json')
@@ -73,6 +74,15 @@ app.use(session({
 
 app.use(express.static(path.join(__dirname, 'public'), { maxAge: CONST_WEEK }));
 app.use(require('serve-favicon')(__dirname + '/favicon.ico'))
+
+var corsOptions = {
+  origin: function(origin, callback){
+    var originIsWhitelisted = config.clientServer.indexOf(origin) !== -1;
+    callback(null, originIsWhitelisted);
+  }
+}
+
+app.use(cors(corsOptions))
 
 /** ROUTES Apps */
 app.use(require(__dirname + '/routes'))

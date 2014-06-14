@@ -246,5 +246,6 @@ UserSchema.methods = {
     return ~oAuthTypes.indexOf(this.provider);
   }
 }
+var UserModel = mongoose.model('User', UserSchema)
 
-module.exports = mongoose.model('User', UserSchema)
+module.exports = UserModel
