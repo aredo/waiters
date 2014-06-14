@@ -26,6 +26,7 @@ var MongoStore       = require('connect-mongo')({ session: session })
 var errorHandler     = require('errorhandler')
 var expressValidator = require('express-validator')
 var cors             = require('cors')
+var crypto           = require('crypto')
 
 
 var pkg = require(__dirname + '/package.json')
@@ -61,10 +62,11 @@ app.use(methodOverride())
 app.use(responseTime())
 app.use(compression())
 
-app.use(cookieParser('a61260e4fff785b6199931da66caad148715858b'))
-
+app.use(cookieParser(crypto.createHmac('sha1', pkg.apps_name + '-id').update(pkg.apps_name).digest('hex')))
 app.use(session({
-  secret: pkg.name,
+  key: pkg.apps_name + '-id',
+  secret: crypto.createHmac('sha1', pkg.apps_name + '-id').update(pkg.apps_name).digest('hex'),
+  // cookie: { httpOnly: false },
   store: new MongoStore({
     url: config.database.url,
     collection : 'sessions',
