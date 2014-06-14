@@ -38,7 +38,7 @@ exports.mongoose = function (res, err) {
   error_results.message = err.message
   error_results.data    = err.errors
 
-  return res.json(status, error_results)
+  return res.json(500, error_results)
 }
 
 exports.custom = function (res, err) {
@@ -47,4 +47,11 @@ exports.custom = function (res, err) {
   error_results.status  = status
   error_results.message = err.msg || err.message
   return res.json(status, error_results)
+}
+
+exports.not_found = function (res) {
+  error_results.message = 'Sorry, that page does not exist'
+  error_results.code    = 34 // Corresponds with an HTTP 404 - the specified resource was not found.
+
+  return res.json(404, error_results)
 }

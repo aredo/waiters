@@ -1,29 +1,61 @@
-var mongoose = require('mongoose');
-var User     = mongoose.model('User');
-var async    = require('async');
+var mongoose    = require('mongoose');
+var User        = mongoose.model('User');
+var async       = require('async');
+var errorHelper = require('../helper/errors')
+var validator   = require('validator')
+var _           = require('lodash')
+
+var resultPrint = {}
+var errPrint    = {}
 
 /*
  * GET users/show
  * Returns a variety of information about the user specified by the required user_id or username parameter.
  *
  */
-exports.get_profile = function (req, res, next) {
-  var user_id = req.query.user_id
+exports.getProfile = function (req, res, next) {
+
+  var condition = { $or : [] }
+
+  if(validator.isNull(req.query.user_id)) {
+    return errorHelper.not_found(res);
+  } else {
+    condition.$or.push({'_id' : req.query.user_id })
+  }
+
+  if(!validator.isNull(req.query.username)) {
+    condition.$or.push({'username' : req.query.username })
+  }
+
   User
-    .findOne({_id: user_id}, 'username firstname lastname photo_profile', function (err, user) {
+    .findOne( condition
+      , 'username firstname lastname photo_profile bod gender city country bio interest facebook twitter last_login'
+      , function (err, user) {
       if (err) {
-        var errPrint     = {}
-        errPrint.status  = 400
+
+        errPrint.status  = 500;
         errPrint.message = err.message
         errPrint.data    = err.errors
-        return res.json(200, errPrint)
-      } else {
-        var resultPrint     = {}
-        resultPrint.status  = 200
-        resultPrint.message = "success"
 
-        resultPrint.data    = user
-        return res.json(200, resultPrint)
+        errorHelper.mongoose(res, errPrint)
+
+      } else {
+
+        if (_.isObject(user)) {
+
+          resultPrint.status  = 200
+          resultPrint.message = "success"
+          resultPrint.data    = user
+          return res.json(200, resultPrint)
+        } else {
+          return errorHelper.not_found(res);
+        }
+
       }
     })
+}
+
+
+exports.updateProfile = function (req, res, next) {
+
 }

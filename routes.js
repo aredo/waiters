@@ -11,9 +11,10 @@ var Users = require(config.root + '/app/controllers/users');
 
 Route
   // .all('/v1/*', Auth.requiresAccessToken)
-  .get('/v1/users/show', Users.get_profile)
   .get('/v1/users', function(req, res) {
     res.json({'message': 'Welcome to API'});
   })
+  .get('/v1/users/show', Users.getProfile)
+  .put('/v1/users/show', Users.updateProfile)
 
 module.exports = Route
