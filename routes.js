@@ -16,5 +16,6 @@ Route
   })
   .get('/v1/users/show', Users.getProfile)
   .put('/v1/users/update', Users.updateProfile)
+  .post('/v1/banks/update', Users.postBank)
 
 module.exports = Route
