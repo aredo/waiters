@@ -17,7 +17,7 @@ exports.getProfile = function (req, res, next) {
 
   var condition = { $or : [] }
 
-  if(validator.isNull(req.query.user_id)) {
+  if(validator.isNull(req.query.user_id) && validator.isNull(req.query.username)) {
     return errorHelper.not_found(res);
   } else {
     condition.$or.push({'_id' : req.query.user_id })

@@ -15,6 +15,6 @@ Route
     res.json({'message': 'Welcome to API'});
   })
   .get('/v1/users/show', Users.getProfile)
-  .put('/v1/users/show', Users.updateProfile)
+  .put('/v1/users/update', Users.updateProfile)
 
 module.exports = Route

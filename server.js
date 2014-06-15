@@ -93,7 +93,7 @@ app.use(errorHandler())
 
 app.use(function handleNotFound(req, res, next){
   res.status(404)
-  res.send({ url: req.url, error: '404 Not found' })
+  res.send({ message: "Sorry, that page does not exist",  url: req.protocol + '://' + req.headers.host + req.url, code: 34 })
   return
 })
 
