@@ -12,6 +12,8 @@ var errPrint    = {}
  * GET users/show
  * Returns a variety of information about the user specified by the required user_id or username parameter.
  *
+ *  @param : user_id   require
+ *  @param : username  optional
  */
 exports.getProfile = function (req, res, next) {
 
@@ -55,7 +57,27 @@ exports.getProfile = function (req, res, next) {
     })
 }
 
-
+/*
+ *  POST account/update_profile
+ *  Only the parameters specified will be updated.
+ *
+ *  @params : user_id    require
+ */
 exports.updateProfile = function (req, res, next) {
 
+  var user_id = req.body.user_id
+
+  var dataToUpdate = req.body
+
+  delete dataToUpdate._id
+  delete dataToUpdate.user_id
+  delete dataToUpdate.username
+
+  User.findByIdAndUpdate( user_id, dataToUpdate, function(err, user){
+    if(err) {
+      errorHelper.mongoose(res, err)
+    } else {
+      return res.json(200, user)
+    }
+  })
 }
