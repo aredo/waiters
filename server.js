@@ -78,12 +78,12 @@ app.use(express.static(path.join(__dirname, 'public'), { maxAge: CONST_WEEK }));
 app.use(require('serve-favicon')(__dirname + '/favicon.ico'))
 
 var corsOptions = {
+  methods: ['GET','POST','DELETE','PUT'],
   origin: function(origin, callback){
     var originIsWhitelisted = config.clientServer.indexOf(origin) !== -1;
     callback(null, originIsWhitelisted);
   }
 }
-
 app.use(cors(corsOptions))
 
 /** ROUTES Apps */

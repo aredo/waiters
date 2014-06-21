@@ -15,7 +15,8 @@ var config = {
     },
     clientServer: [
       'http://buzzer.findbuzzer.local:9898',
-      'http://advertiser.findbuzzer.local:9898'
+      'http://advertiser.findbuzzer.local:9898',
+      'http://cdn.findbuzzer.local:9898'
     ],
     database: {
       url: 'mongodb://localhost/findbuzzer_dev'
@@ -55,7 +56,8 @@ var config = {
     },
     clientServer: [
       'http://buzzer.findbuzzer.com',
-      'http://advertiser.findbuzzer.local'
+      'http://advertiser.findbuzzer.com',
+      'http://cdn.findbuzzer.com'
     ],
     database: {
       url: 'mongodb://localhost/findbuzzer'
