@@ -55,8 +55,10 @@ if (env === 'development') {
   app.use(logger())
 }
 
+app.use(bodyParser.urlencoded({
+  extended: true
+}))
 app.use(bodyParser.json())
-app.use(bodyParser.urlencoded())
 app.use(expressValidator())
 app.use(methodOverride())
 app.use(responseTime())
