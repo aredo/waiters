@@ -1,8 +1,8 @@
 "use strict";
 
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
-var CreateUpdatedAt = require('mongoose-timestamp');
+var mongoose = require('mongoose')
+var Schema = mongoose.Schema
+var CreateUpdatedAt = require('mongoose-timestamp')
 
 var UserBank = new Schema({
     name: {
@@ -24,9 +24,9 @@ var UserBank = new Schema({
     branch: {
       type: String
     }
-});
+})
 
-UserBank.plugin(CreateUpdatedAt);
+UserBank.plugin(CreateUpdatedAt)
 
 UserBank.statics = {
   load: function (id, cb) {

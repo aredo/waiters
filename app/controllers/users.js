@@ -32,7 +32,7 @@ exports.getProfile = function (req, res, next) {
 
   User
     .findOne( condition
-      , 'username firstname lastname photo_profile bod gender city country bio interest facebook twitter last_login'
+      , 'username firstname lastname email photo_profile bod gender city country bio interest facebook twitter last_login'
       , function (err, user) {
       if (err) {
 
@@ -67,6 +67,10 @@ exports.getProfile = function (req, res, next) {
 exports.updateProfile = function (req, res, next) {
 
   var user_id = req.body.user_id
+
+  if(validator.isNull(user_id)) {
+    return errorHelper.not_found(res)
+  }
 
   var dataToUpdate = req.body
 

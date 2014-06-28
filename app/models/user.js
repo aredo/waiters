@@ -3,11 +3,11 @@
  * Module dependencies.
  */
 
-var mongoose = require('mongoose');
+var mongoose = require('mongoose')
 var Schema = mongoose.Schema
-var CreateUpdatedAt = require('mongoose-timestamp');
-var crypto = require('crypto');
-var oAuthTypes = ['twitter', 'facebook', 'google'];
+var CreateUpdatedAt = require('mongoose-timestamp')
+var crypto = require('crypto')
+var oAuthTypes = ['twitter', 'facebook', 'google']
 /**
  * User Schema
  */
@@ -15,30 +15,37 @@ var oAuthTypes = ['twitter', 'facebook', 'google'];
 var UserSchema = new Schema({
   username: {
     type: String,
-    require: true
+    require: true,
+    trim: true
   },
   email: {
     type: String,
     unique: true,
     require: true,
-    lowercase: true
+    lowercase: true,
+    trim: true
   },
-  firstname: String,
-  lastname: String,
+  firstname: {
+    type: String,
+    trim: true
+  },
+  lastname: {
+    type: String,
+    trim: true
+  },
   photo_profile: String,
   bod: {
     type: Date,
   },
   gender: {
-    type: String
+    type: String,
+    enum: ['male', 'female']
   },
   city: {
-    type : Schema.ObjectId,
-    ref : 'City'
+    type: String,
   },
   country: {
-    type : Schema.ObjectId,
-    ref : 'Country'
+    type: String,
   },
   bio: {
     type: String
