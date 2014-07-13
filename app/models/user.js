@@ -253,6 +253,23 @@ UserSchema.methods = {
     return ~oAuthTypes.indexOf(this.provider);
   }
 }
+
+/**
+ * Statics
+ */
+UserSchema.statics = {
+  /**
+   * Find campaign by id
+   *
+   * @param {ObjectId} id
+   * @param {Function} cb
+   * @api private
+   */
+  load: function (id, cb) {
+    this.findOne({ _id : id }).exec(cb)
+  },
+}
+
 var UserModel = mongoose.model('User', UserSchema)
 
 module.exports = UserModel

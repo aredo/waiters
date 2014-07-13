@@ -9,6 +9,14 @@ var _           = require('lodash')
 var resultPrint = {}
 var errPrint    = {}
 
+exports.load = function(req, res, next, user_id){
+  User.load(user_id, function (err, user) {
+    if (err) return next(err)
+    if (!user) return errorHelper.not_found(res);
+    next()
+  })
+}
+
 /*
  * GET users/show
  * Returns a variety of information about the user specified by the required user_id or username parameter.
@@ -16,7 +24,7 @@ var errPrint    = {}
  *  @param : user_id   require
  *  @param : username  optional
  */
-exports.getProfile = function (req, res, next) {
+exports.getUser = function (req, res, next) {
 
   var condition = { $or : [] }
 
@@ -85,63 +93,4 @@ exports.updateProfile = function (req, res, next) {
       return res.json(200, user)
     }
   })
-}
-
-/*
- *  POST banks/update
- *  Only the parameters specified will be updated.
- *
- *  @params : user_id    require
- *  @params : bank_id    require
- */
-exports.postBank = function (req, res, next) {
-
-  var user    = req.body.user_id
-  var bank_id = req.body.bank_id
-
-  delete req.body.bank_id
-  delete req.body.user_id
-
-  var dataBank = req.body
-  dataBank.user = user
-
-  if (validator.isNull(bank_id)) {
-
-    var newBank = new UserBank(dataBank)
-
-    newBank.save(function (err, bank) {
-      if(err) {
-        errPrint.status  = 500;
-        errPrint.message = err.message
-        errPrint.data    = err.errors
-        errorHelper.mongoose(res, errPrint)
-      } else {
-        return res.json(200, bank)
-      }
-    })
-
-  } else {
-
-    var condition = {
-        $and : [
-          { _id : bank_id },
-          { user : user }
-        ]
-      };
-
-    UserBank.findOneAndUpdate(condition, dataBank, function (err, bank) {
-      if(err) {
-        errPrint.status  = 500;
-        errPrint.message = err.message
-        errPrint.data    = err.errors
-        errorHelper.mongoose(res, errPrint)
-      } else {
-        if (_.isObject(bank)) {
-          return res.json(200, bank)
-        } else {
-          return errorHelper.custom(res, { code : 400, message: 'Bank not exist to update.'});
-        }
-      }
-    })
-  }
 }
